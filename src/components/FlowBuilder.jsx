@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { useState } from "react";
 import ReactFlow, {
   Controls,
@@ -9,19 +10,21 @@ import ReactFlow, {
 import toast, { Toaster } from "react-hot-toast";
 import "reactflow/dist/style.css";
 import AnimatedEdge from "./AnimatedEdge";
-
-const initialNodes = [];
-const initialEdges = [];
+import BeautifulNode from "./BeayitfulNode";
+import { MessageCircle, SkipBack } from "lucide-react";
 
 const nodeType = {
-  imageNode: "Image Node",
-  textNode: "Message Node",
+  // imageNode: "Image Node",
+  textNode: BeautifulNode,
 };
 
 // Define custom edge types
 const edgeTypes = {
   animated: AnimatedEdge,
 };
+
+const initialNodes = [];
+const initialEdges = [];
 
 function FlowBuilder() {
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
@@ -41,7 +44,7 @@ function FlowBuilder() {
       id: `${nodes.length + 1}`,
       type,
       position,
-      data: { label: nodeType[type] },
+      data: { label: `Test Message ${nodes.length + 1}` },
     };
 
     setNodes((nds) => nds.concat(newNode));
@@ -62,6 +65,8 @@ function FlowBuilder() {
     if (nodesWithEmptyTargets.length > 1) {
       toast.error("Cannot save flow.");
       return;
+    } else {
+      toast.success("Messages flow saved.");
     }
   };
 
@@ -82,6 +87,7 @@ function FlowBuilder() {
           onNodeClick={(event, node) => setSelectedNode(node)}
           isValidConnection={isValidConnection}
           edgeTypes={edgeTypes} // Add custom edge types
+          nodeTypes={nodeType}
         >
           <Background />
           <Controls />
@@ -95,7 +101,7 @@ function FlowBuilder() {
       >
         {selectedNode ? (
           <div>
-            <h3
+            <div
               style={{
                 padding: "10px",
                 borderBottom: "1px solid #ccc",
@@ -105,9 +111,19 @@ function FlowBuilder() {
               }}
               onClick={() => setSelectedNode(null)}
             >
-              {" "}
-              {"< Message"}
-            </h3>
+              <SkipBack size={14} className="text-teal-700" />
+              <span> Messages</span>
+            </div>
+
+            <span
+              style={{
+                display: "flex",
+                justifyContent: "flex-start",
+                padding: "12px",
+              }}
+            >
+              Enter Text
+            </span>
             <div
               style={{
                 display: "flex",
@@ -179,9 +195,18 @@ function FlowBuilder() {
                 borderRadius: "5px",
                 cursor: "grab",
                 margin: 10,
+                display: "grid",
+                placeItems: "center",
               }}
             >
-              Messages
+              <div>
+                <MessageCircle
+                  size={20}
+                  className="text-teal-700"
+                  style={{ marginRight: 5 }}
+                />
+              </div>
+              <div>Messages Node</div>
             </div>
           </div>
         )}

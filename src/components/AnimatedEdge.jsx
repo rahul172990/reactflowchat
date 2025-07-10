@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 const AnimatedEdge = ({ id, sourceX, sourceY, targetX, targetY, style }) => {
   const edgePath = `M ${sourceX},${sourceY} L ${targetX},${targetY}`;
 

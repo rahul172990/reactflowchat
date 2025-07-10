@@ -9,5 +9,5 @@
 
 .animated-edge {
   stroke-dasharray: 10;
-  animation: dash 5s linear infinite;
+  animation: dash 2s linear infinite;
 }
